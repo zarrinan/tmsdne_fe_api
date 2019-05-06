@@ -4,7 +4,6 @@ checkpoint
 samples
 tms/
 models/
-.ebextensions/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

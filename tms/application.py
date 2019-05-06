@@ -17,16 +17,16 @@ def get_report():
     user_input = request.get_json(force=True)
     print(user_input)
     date = user_input['date']
-    # try:
-    #     text = generator.interact_model(date)
-    # except:
+    try:
+        text = generator.interact_model(date)
+    except:
     text = generator.interact_model('2019-05-02')
-        # pass
-    # try:
-    #     url, url2, url3 =  plotly_chart.get_chart_url(date, 'yJFFlg1mOfxnXv3WBCGH')
-    # except:
+        pass
+    try:
+        url, url2, url3 =  plotly_chart.get_chart_url(date, 'yJFFlg1mOfxnXv3WBCGH')
+    except:
     url, url2, url3 = 'https://plot.ly/~TMSDNE/4', 'https://plot.ly/~TMSDNE/10', 'https://plot.ly/~TMSDNE/12'
-        # pass
+        pass
 
     chart_url = random.choice([url, url2, url3])
     print(text)
@@ -41,7 +41,7 @@ def hello():
 
 
 if __name__ == '__main__':
-    application.run(port = 5050, debug = True)
+    application.run(port = 5050, debug = False)
 
 
 

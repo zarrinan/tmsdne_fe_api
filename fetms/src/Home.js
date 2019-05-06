@@ -43,7 +43,6 @@ export default class Home extends React.Component {
     const day = date.getDate()+1 <10 ? `0${date.getDate()}` : `${date.getDate()}`
     let fullDate = `${date.getFullYear()}-${month}-${day}`;
     let momentdate = moment(fullDate)
-    console.log(momentdate)
     return momentdate
   }
 
@@ -61,11 +60,10 @@ export default class Home extends React.Component {
     this.setState({
       loading: true
     })
-    axios.post('http://127.0.0.1:5050/', {
+    axios.post('https://ms-env.b6itn7cmga.us-east-2.elasticbeanstalk.com/', {
       date: this.state.date
     })
     .then(res => {
-      console.log(typeof res.data);
       this.setState({
           report: res.data.report,
           url: res.data.url,
@@ -74,10 +72,10 @@ export default class Home extends React.Component {
     }).catch(error => {
       console.log(error)
     })
+
   }
 
   render() {
-    console.log(this.state)
     let data;
     if (this.state.loading) {
       data =
