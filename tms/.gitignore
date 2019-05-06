@@ -1,0 +1,12 @@
+__pycache__
+models/
+checkpoint
+samples
+api/
+models/
+.ebextensions/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
