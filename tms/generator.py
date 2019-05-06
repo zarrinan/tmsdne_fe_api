@@ -7,11 +7,11 @@ import tensorflow as tf
 import model, sample, encoder, scraper
 
 def get_input(date):
-    try:
-        input_text = scraper.get_daily_activity(date)
-    except:
-        input_text = 'The S&P500 Index traded up as high as 2954.13, and as low as 2923.36, but closed flat, returning -0.01% on the day. US 10 Year Treasury yields fell to 2.51% from 2.52% today. Gold rose to 1285.15 from 1281.80.'
-        pass
+    # try:
+    #     input_text = scraper.get_daily_activity(date)
+    # except:
+    input_text = 'The S&P500 Index traded up as high as 2954.13, and as low as 2923.36, but closed flat, returning -0.01% on the day. US 10 Year Treasury yields fell to 2.51% from 2.52% today. Gold rose to 1285.15 from 1281.80.'
+        # pass
     return input_text
 
 def interact_model(
@@ -20,8 +20,8 @@ def interact_model(
     seed=None,
     nsamples=1,
     batch_size=1,
-    length=None,
-    temperature=0.8,
+    length=120,
+    temperature=0.7,
     top_k=40,
 ):
     """
@@ -84,8 +84,4 @@ def interact_model(
                 generated += 1
                 text = enc.decode(out[i])
         return text
-
-
-# if __name__ == '__main__':
-#     fire.Fire(interact_model)
 

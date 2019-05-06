@@ -6,9 +6,19 @@ import {SingleDatePicker} from 'react-dates';
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import DefaultTheme from 'react-dates/lib/theme/DefaultTheme';
+import moment from 'moment'
+import { BounceLoader } from 'react-spinners';
+import { css } from '@emotion/core';
 
 ThemedStyleSheet.registerInterface(aphroditeInterface);
 ThemedStyleSheet.registerTheme(DefaultTheme);
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin-top: 100px;
+`;
 
 export default class Home extends React.Component {
 
@@ -18,8 +28,9 @@ export default class Home extends React.Component {
     this.state = {
       date: null,
       focused: null,
-      report: 'S&P 500 Index futures contracts closed 9.10% lower at 17:12:27. The S&P 500 is up $0.17 trillion.',
-      url: 'https://plot.ly/~TMSDNE/12'
+      report: '',
+      url: '',
+      loading: false
     };
 
     this.handleChange = this.handleChange.bind(this)
@@ -27,17 +38,14 @@ export default class Home extends React.Component {
   }
 
 
-  toISODateString(date, ev){
+  toISODateString(date){
     const month = date.getMonth()+1 <10 ? `0${date.getMonth()+1}` : `${date.getMonth()+1}`
     const day = date.getDate()+1 <10 ? `0${date.getDate()}` : `${date.getDate()}`
-    const fullDate = `${date.getFullYear()}-${month}-${day}`;
-    console.log(fullDate)
-    this.setState({
-      date: fullDate
-    })
+    let fullDate = `${date.getFullYear()}-${month}-${day}`;
+    let momentdate = moment(fullDate)
+    console.log(momentdate)
+    return momentdate
   }
-
-
 
 
   handleChange(ev) {
@@ -50,6 +58,9 @@ export default class Home extends React.Component {
 
   handleSubmit(ev) {
     ev.preventDefault();
+    this.setState({
+      loading: true
+    })
     axios.post('http://127.0.0.1:5050/', {
       date: this.state.date
     })
@@ -57,46 +68,55 @@ export default class Home extends React.Component {
       console.log(typeof res.data);
       this.setState({
           report: res.data.report,
-          url: res.data.url
+          url: res.data.url,
+          loading: false
       })
+    }).catch(error => {
+      console.log(error)
     })
   }
 
   render() {
     console.log(this.state)
+    let data;
+    if (this.state.loading) {
+      data =
+      <div>
+      <p className='loader'>The market summary is being prepared now, it might take up to 30 seconds...</p>
+      <BounceLoader css={override}
+          sizeUnit={"px"}
+          size={150}
+          color={'green'}
+          loading={this.state.loading}/>
+      </div>
+    }
+    else {
+      data =  <Report report={this.state.report} url={this.state.url}/>
+
+    }
     return (
       <div>
-      <SingleDatePicker
-            date={this.state.date}
-            onDateChange={date =>
-                        this.setState({date: this.toISODateString(date._d)})
-                    }
-            focused={this.state.focused}
-            onFocusChange={({ focused }) => this.setState({ focused })}
-            id={Date().now}
-            numberOfMonths={1}
-            disableScroll={true}
-            isOutsideRange={() => false}
-        />
-
+        <form onSubmit={this.handleSubmit} >
+          <SingleDatePicker
+                date={this.state.date}
+                onDateChange={
+                  date => this.setState({date: this.toISODateString(date._d)})}
+                focused={this.state.focused}
+                onFocusChange={({ focused }) => this.setState({ focused })}
+                id={Date().now}
+                numberOfMonths={1}
+                disableScroll={true}
+                isOutsideRange={() => false}
+            />
+           <input type="submit" value="select" className="form-submit-button"/>
+        </form>
         <div className='main-container'>
-        <h1 className='page-header'>This Market Summary Does Not Exist</h1>
-
-        <Report report={this.state.report} url={this.state.url}/>
-      </div>
+          <h1 className='page-header'>This Market Summary Does Not Exist</h1>
+          {data}
+        </div>
       </div>
     )
   }
 }
 
 
-
-// <form className='date-submit'onSubmit={this.handleSubmit} >
-      //     <input
-      //       className="input-text"
-      //       type="text"
-      //       name="date"
-      //       onChange={this.handleChange}
-      //       value={this.state.date}/>
-      //     <input type="submit" value="Submit" className="form-submit-button"/>
-      //   </form>

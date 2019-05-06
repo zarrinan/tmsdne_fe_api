@@ -77,3 +77,26 @@ ul {
   margin-left: 40px;
   margin-top: 20px;
 }
+
+.form-submit-button {
+  border: none;
+  margin-left:20px;
+  /*display: block;*/
+  font-weight: 200 !important;
+  font-size: 22px !important;
+  line-height: 24px !important;
+  color: rgb(72, 72, 72) !important;
+  cursor: pointer;
+  outline: none;
+}
+
+.loader {
+  font-weight: 200 !important;
+  font-size: 18px !important;
+  line-height: 24px !important;
+  color: rgb(72, 72, 72) !important;
+  margin: 0 auto;
+  text-align: center;
+  font-style: italic;
+}
+
