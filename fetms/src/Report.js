@@ -8,12 +8,15 @@ export default function Report(props) {
   trimmed.pop()
   let postReport = trimmed.join()+'.'
 
+  let cleaned = postReport.split('<|endoftext|>')
+  cleaned = cleaned.join()
+
   return(
       <div>
       <div>
         </div>
         <iframe className='chart-iframe' title='Financial Data Chart' width="800" height="600" frameBorder="0" scrolling="yes" src={chartUrl}></iframe>
-        <p className='report'>{postReport}</p>
+        <p className='report'>{cleaned}</p>
       </div>
     )
 }
