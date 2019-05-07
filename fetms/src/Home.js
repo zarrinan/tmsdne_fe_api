@@ -60,7 +60,7 @@ export default class Home extends React.Component {
     this.setState({
       loading: true
     })
-    axios.post('https://tmsdne-env.b4ppni5hrp.us-east-2.elasticbeanstalk.com/', {
+    axios.post('https://tms-env.t9yb28hdar.us-east-2.elasticbeanstalk.com/', {
       date: this.state.date
     })
     .then(res => {
