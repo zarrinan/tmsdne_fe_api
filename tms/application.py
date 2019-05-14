@@ -20,17 +20,15 @@ def get_report():
     try:
         text = generator.interact_model(date)
     except:
-    text = generator.interact_model('2019-05-02')
+         text = generator.interact_model('2019-05-02')
         pass
     try:
         url, url2, url3 =  plotly_chart.get_chart_url(date, 'yJFFlg1mOfxnXv3WBCGH')
     except:
-    url, url2, url3 = 'https://plot.ly/~TMSDNE/4', 'https://plot.ly/~TMSDNE/10', 'https://plot.ly/~TMSDNE/12'
+        url, url2, url3 = 'https://plot.ly/~TMSDNE/4', 'https://plot.ly/~TMSDNE/10', 'https://plot.ly/~TMSDNE/12'
         pass
 
     chart_url = random.choice([url, url2, url3])
-    print(text)
-
 
     return jsonify({'report':text,
         'url': chart_url})
